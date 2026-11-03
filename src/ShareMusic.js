@@ -86,6 +86,15 @@ export function renderShareMusic(element, tracksArray) {
     form.addEventListener('submit', (event) => {
         event.preventDefault();
 
+        const spotifyInput = document.querySelector('#spotify-link').value;
+
+        const validLink = /spotify\.com\/track\/[a-zA-Z0-9]+/.test(spotifyInput);
+
+        if (!validLink) {
+            statusMsg.innerHTML = 'Error: only spotify links please!';
+            return;
+        }
+
         const newTrack = {
             title: document.querySelector('#song-title').value,
             artist: document.querySelector('#artist-name').value,
@@ -97,7 +106,7 @@ export function renderShareMusic(element, tracksArray) {
         tracksArray.push(newTrack);
         updateFeedDisplay();
 
-        statusMsg.innerHTML = ` Added Track Successfully "${newTrack.title}"!`;
+        statusMsg.innerHTML = `Added Track Successfully "${newTrack.title}"!`;
         form.reset();
 
         setTimeout(() => {
@@ -105,3 +114,8 @@ export function renderShareMusic(element, tracksArray) {
         }, 3000);
     });
 }
+
+
+
+
+ 
