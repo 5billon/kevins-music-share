@@ -1,3 +1,14 @@
+ function formData(form) {
+  const data = form.querySelector('#music-file')?.files?.[0] ?? null;
+  return {
+    title: form.querySelector('#song-title').value,
+    artist: form.querySelector('#artist-name').value,
+    album: form.querySelector('#album-name').value,
+    genre: form.querySelector('#genre-name').value,
+    audioFile: data
+  };
+ }
+
  export function renderShareMusic(element, tracksArray) {
 
     function updateFeedDisplay() {
@@ -62,20 +73,20 @@
     const form = document.querySelector('#music-form');
     const statusMsg = document.querySelector('#status-message');
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-        const fileInput = document.querySelector('#music-file');
-        const uploadedFile = fileInput.files[0];
-
-        const audioUrl = uploadedFile ? URL.createObjectURL(uploadedFile) : '';
+        const { title, artist, album, genre, audioFile } = formData(form);
+        const uploadedFile = audioFile;
+        const audioUrl = uploadedFile ? URL.createObjectURL(uploadedFile) : null;
 
         const newTrack = {
-            title: document.querySelector('#song-title').value,
-            artist: document.querySelector('#artist-name').value,
-            album: document.querySelector('#album-name').value,
-            genre: document.querySelector('#genre-name').value,
-            audioUrl: audioUrl
+            title: title,
+            artist: artist,
+            album: album,
+            genre: genre,
+            audioUrl: audioUrl,
+            uploadedFile: uploadedFile
         };
 
         tracksArray.push(newTrack);
@@ -89,3 +100,5 @@
         }, 3000);
     });
 }
+
+//...
